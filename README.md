@@ -31,31 +31,40 @@
 $ npm install
 ```
 
-## Compile and run the project
+## Instalacion y ejecucion
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+1. Clonamos el repositorio
+git clone https://github.com/aftenegusnay/airbnb
+2. Acceder al repositorio
+cd repo
+3. Instala las dependencias
+npm install
+4. Ejecucion de servidor
+npm run Start:dev
 ```
 
-## Run tests
+## Diagrama entidad relacion
+![image](https://github.com/user-attachments/assets/ed88351b-3088-4ddd-a2b1-32878a20eac3)
 
-```bash
-# unit tests
-$ npm run test
+## Relaciones
+1. Usuarios (users): Representa a los usuarios de la plataforma, que pueden tener diferentes roles: anfitrión, huésped o admin.
+2. Propiedades (properties): Entidad que representa los alojamientos disponibles para reserva.
+3. Reservas (bookings): Entidad que almacena las reservas realizadas por los huéspedes sobre una propiedad.
+4. Pagos (payments): Entidad encargada de registrar los pagos realizados por las reservas.
+5. Reseñas (reviews): Entidad que permite a los usuarios dejar comentarios y calificaciones sobre una propiedad.
 
-# e2e tests
-$ npm run test:e2e
+Relaciones del Modelo
 
-# test coverage
-$ npm run test:cov
-```
+Usuarios → Propiedades: Un usuario (anfitrión) puede poseer varias propiedades, pero cada propiedad solo tiene un anfitrión.
+
+Propiedades → Reservas: Una propiedad puede tener múltiples reservas, pero una reserva pertenece a una única propiedad.
+
+Reservas → Pagos: Una reserva puede generar un pago, y cada pago está asociado a una única reserva.
+
+Propiedades → Reseñas: Las reseñas están vinculadas a las propiedades, eliminando la relación directa con los usuarios.
+
+
 
 ## Deployment
 
