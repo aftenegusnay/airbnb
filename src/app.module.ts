@@ -1,21 +1,25 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
-import { User } from './users/entities/user.entity'; // Asegúrate de importar la entidad correcta
+import { User } from './users/entities/user.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres', // O cambia a 'mysql', 'mariadb', etc.
-      host: 'bkwljfugeifqquhtliiu.supabase.co',
-      port: 5432, // Puerto por defecto de PostgreSQL
-      username: 'aftenegusnay',
-      password: 'airbnbcloneelian',
-      database: 'airbnb',
-      entities: [User], // Incluye aquí todas tus entidades
-      synchronize: true, // Solo en desarrollo, en producción usa migrations
-      logging: true, // Para ver las consultas en consola
+      type: 'postgres',
+      host: 'aws-0-us-west-1.pooler.supabase.com',
+      port: 5432,
+      username: 'postgres.wwwanszaadvicyfkudaj',
+      password: 'Pigo0173!',
+      database: 'postgres',
+      synchronize: true,
+      logging: true,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      entities: [User],
     }),
+
     UsersModule,
   ],
 })
