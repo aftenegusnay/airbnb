@@ -2,6 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/entities/user.entity';
+import { FlatsModule } from './flats/flats.module';
+import { AuthModule } from './auth/auth.module';
+import { MessagesModule } from './messages/messages.module';
+import { Flat } from './flats/entities/flat.entity';
+import { Message } from './messages/entities/message.entity';
 
 @Module({
   imports: [
@@ -17,10 +22,16 @@ import { User } from './users/entities/user.entity';
       ssl: {
         rejectUnauthorized: false,
       },
-      entities: [User],
+      entities: [User, Flat, Message],
     }),
 
     UsersModule,
+
+    FlatsModule,
+
+    AuthModule,
+
+    MessagesModule,
   ],
 })
 export class AppModule {}
