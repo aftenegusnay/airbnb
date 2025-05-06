@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Message } from './entities/message.entity';
-import { CreateMessageDto } from './dto/create-message.dto';
+import { Message } from '../entities/message.entity';
+import { CreateMessageDto } from '../dto/create-message.dto';
 
 @Injectable()
 export class MessagesService {
@@ -11,7 +11,10 @@ export class MessagesService {
     private messagesRepository: Repository<Message>,
   ) {}
 
-  async create(createMessageDto: CreateMessageDto, senderId: string): Promise<Message> {
+  async create(
+    createMessageDto: CreateMessageDto,
+    senderId: string,
+  ): Promise<Message> {
     const message = this.messagesRepository.create({
       ...createMessageDto,
       sender: { id: senderId },
@@ -42,7 +45,9 @@ export class MessagesService {
   async remove(id: string, senderId: string): Promise<void> {
     const message = await this.findOne(id);
     if (message.sender.id !== senderId) {
-      throw new NotFoundException('You are not authorized to delete this message');
+      throw new NotFoundException(
+        'You are not authorized to delete this message',
+      );
     }
     await this.messagesRepository.remove(message);
   }

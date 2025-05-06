@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Flat } from './entities/flat.entity';
-import { CreateFlatDto } from './dto/create-flat.dto';
-import { UpdateFlatDto } from './dto/update-flat.dto';
+import { Flat } from '../entities/flat.entity';
+import { CreateFlatDto } from '../dto/create-flat.dto';
+import { UpdateFlatDto } from '../dto/update-flat.dto';
 
 @Injectable()
 export class FlatsService {
@@ -37,7 +37,11 @@ export class FlatsService {
     return flat;
   }
 
-  async update(id: string, updateFlatDto: UpdateFlatDto, ownerId: string): Promise<Flat> {
+  async update(
+    id: string,
+    updateFlatDto: UpdateFlatDto,
+    ownerId: string,
+  ): Promise<Flat> {
     const flat = await this.findOne(id);
     if (flat.owner.id !== ownerId) {
       throw new NotFoundException('You are not authorized to update this flat');
@@ -56,14 +60,16 @@ export class FlatsService {
 
   async toggleFavorite(flatId: string, userId: string): Promise<Flat> {
     const flat = await this.findOne(flatId);
-    const isFavorited = flat.favouritedBy.some(user => user.id === userId);
-    
+    const isFavorited = flat.favouritedBy.some((user) => user.id === userId);
+
     if (isFavorited) {
-      flat.favouritedBy = flat.favouritedBy.filter(user => user.id !== userId);
+      flat.favouritedBy = flat.favouritedBy.filter(
+        (user) => user.id !== userId,
+      );
     } else {
       flat.favouritedBy.push({ id: userId } as any);
     }
-    
+
     return this.flatsRepository.save(flat);
   }
 }

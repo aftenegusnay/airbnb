@@ -1,11 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
-import { FlatsService } from './flats.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
+import { FlatsService } from './service/flats.service';
 import { CreateFlatDto } from './dto/create-flat.dto';
 import { UpdateFlatDto } from './dto/update-flat.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
 @ApiTags('flats')
 @ApiBearerAuth()
@@ -27,7 +42,10 @@ export class FlatsController {
 
   @Get()
   @ApiOperation({ summary: 'Obtener todos los departamentos' })
-  @ApiResponse({ status: 200, description: 'Lista de departamentos obtenida exitosamente' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de departamentos obtenida exitosamente',
+  })
   @ApiResponse({ status: 401, description: 'No autorizado' })
   findAll() {
     return this.flatsService.findAll();
@@ -35,7 +53,10 @@ export class FlatsController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Obtener un departamento por ID' })
-  @ApiResponse({ status: 200, description: 'Departamento encontrado exitosamente' })
+  @ApiResponse({
+    status: 200,
+    description: 'Departamento encontrado exitosamente',
+  })
   @ApiResponse({ status: 401, description: 'No autorizado' })
   @ApiResponse({ status: 404, description: 'Departamento no encontrado' })
   findOne(@Param('id') id: string) {
@@ -45,19 +66,29 @@ export class FlatsController {
   @Patch(':id')
   @Roles('admin')
   @ApiOperation({ summary: 'Actualizar un departamento' })
-  @ApiResponse({ status: 200, description: 'Departamento actualizado exitosamente' })
+  @ApiResponse({
+    status: 200,
+    description: 'Departamento actualizado exitosamente',
+  })
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
   @ApiResponse({ status: 403, description: 'Acceso denegado' })
   @ApiResponse({ status: 404, description: 'Departamento no encontrado' })
-  update(@Param('id') id: string, @Body() updateFlatDto: UpdateFlatDto, @Request() req) {
+  update(
+    @Param('id') id: string,
+    @Body() updateFlatDto: UpdateFlatDto,
+    @Request() req,
+  ) {
     return this.flatsService.update(id, updateFlatDto, req.user.id);
   }
 
   @Delete(':id')
   @Roles('admin')
   @ApiOperation({ summary: 'Eliminar un departamento' })
-  @ApiResponse({ status: 200, description: 'Departamento eliminado exitosamente' })
+  @ApiResponse({
+    status: 200,
+    description: 'Departamento eliminado exitosamente',
+  })
   @ApiResponse({ status: 401, description: 'No autorizado' })
   @ApiResponse({ status: 403, description: 'Acceso denegado' })
   @ApiResponse({ status: 404, description: 'Departamento no encontrado' })

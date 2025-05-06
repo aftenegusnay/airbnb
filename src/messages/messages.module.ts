@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { MessagesService } from './messages.service';
+import { MessagesService } from './service/messages.service';
 import { MessagesController } from './messages.controller';
 import { Message } from './entities/message.entity';
 

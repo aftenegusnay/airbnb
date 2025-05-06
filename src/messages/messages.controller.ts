@@ -1,8 +1,22 @@
-import { Controller, Get, Post, Body, Param, Delete, UseGuards, Request } from '@nestjs/common';
-import { MessagesService } from './messages.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
+import { MessagesService } from './service/messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
 @ApiTags('messages')
 @ApiBearerAuth()
@@ -22,12 +36,18 @@ export class MessagesController {
     @Body() createMessageDto: CreateMessageDto,
     @Request() req,
   ) {
-    return this.messagesService.create({ ...createMessageDto, flatId }, req.user.id);
+    return this.messagesService.create(
+      { ...createMessageDto, flatId },
+      req.user.id,
+    );
   }
 
   @Get()
   @ApiOperation({ summary: 'Obtener todos los mensajes de un departamento' })
-  @ApiResponse({ status: 200, description: 'Lista de mensajes obtenida exitosamente' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de mensajes obtenida exitosamente',
+  })
   @ApiResponse({ status: 401, description: 'No autorizado' })
   @ApiResponse({ status: 404, description: 'Departamento no encontrado' })
   findAll(@Param('id') flatId: string) {
