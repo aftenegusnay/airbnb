@@ -9,7 +9,7 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { FlatsService } from './service/flats.service';
+import { FlatsService } from '../services/flats.service';
 import { CreateFlatDto } from './dto/create-flat.dto';
 import { UpdateFlatDto } from './dto/update-flat.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -97,7 +97,10 @@ export class FlatsController {
   }
 
   @Post(':id/favorite')
-  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Agregar/quitar departamento de favoritos' })
+  @ApiResponse({ status: 200, description: 'Operación realizada exitosamente' })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
+  @ApiResponse({ status: 404, description: 'Departamento no encontrado' })
   toggleFavorite(@Param('id') id: string, @Request() req) {
     return this.flatsService.toggleFavorite(id, req.user.id);
   }

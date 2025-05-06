@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Flat } from '../entities/flat.entity';
-import { User } from '../../users/entities/user.entity';
-import { CreateFlatDto } from '../dto/create-flat.dto';
-import { UpdateFlatDto } from '../dto/update-flat.dto';
+import { Flat } from '../flats/entities/flat.entity';
+import { CreateFlatDto } from '../flats/dto/create-flat.dto';
+import { UpdateFlatDto } from '../flats/dto/update-flat.dto';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class FlatsService {
@@ -18,54 +18,51 @@ export class FlatsService {
   async create(createFlatDto: CreateFlatDto, userId: string): Promise<Flat> {
     const user = await this.usersRepository.findOne({ where: { id: userId } });
     if (!user) {
-      throw new NotFoundException('Usuario no encontrado');
+      throw new NotFoundException(`Usuario con ID ${userId} no encontrado`);
     }
 
     const flat = this.flatsRepository.create({
       ...createFlatDto,
       owner: user,
     });
-
     return this.flatsRepository.save(flat);
   }
 
   async findAll(): Promise<Flat[]> {
     return this.flatsRepository.find({
-      relations: ['owner', 'favoritedBy'],
+      relations: ['owner'],
     });
   }
 
   async findOne(id: string): Promise<Flat> {
     const flat = await this.flatsRepository.findOne({
       where: { id },
-      relations: ['owner', 'favoritedBy'],
+      relations: ['owner'],
     });
-
     if (!flat) {
-      throw new NotFoundException('Departamento no encontrado');
+      throw new NotFoundException(`Departamento con ID ${id} no encontrado`);
     }
-
     return flat;
   }
 
   async update(id: string, updateFlatDto: UpdateFlatDto, userId: string): Promise<Flat> {
     const flat = await this.findOne(id);
-
+    
     if (flat.owner.id !== userId) {
       throw new UnauthorizedException('No tienes permiso para actualizar este departamento');
     }
-
+    
     Object.assign(flat, updateFlatDto);
     return this.flatsRepository.save(flat);
   }
 
   async remove(id: string, userId: string): Promise<void> {
     const flat = await this.findOne(id);
-
+    
     if (flat.owner.id !== userId) {
       throw new UnauthorizedException('No tienes permiso para eliminar este departamento');
     }
-
+    
     await this.flatsRepository.remove(flat);
   }
 
@@ -77,19 +74,18 @@ export class FlatsService {
     });
 
     if (!user) {
-      throw new NotFoundException('Usuario no encontrado');
+      throw new NotFoundException(`Usuario con ID ${userId} no encontrado`);
     }
 
-    const isFavorited = flat.favoritedBy.some((user) => user.id === userId);
-
-    if (isFavorited) {
-      flat.favoritedBy = flat.favoritedBy.filter(
-        (user) => user.id !== userId,
-      );
+    const isFavorite = user.favorites.some(favorite => favorite.id === flat.id);
+    
+    if (isFavorite) {
+      user.favorites = user.favorites.filter(favorite => favorite.id !== flat.id);
     } else {
-      flat.favoritedBy.push({ id: userId } as any);
+      user.favorites.push(flat);
     }
 
-    return this.flatsRepository.save(flat);
+    await this.usersRepository.save(user);
+    return flat;
   }
-}
+} 

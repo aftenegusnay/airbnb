@@ -47,8 +47,8 @@ export class Flat {
   @OneToMany(() => Message, message => message.flat)
   messages: Message[];
 
-  @ManyToMany(() => User, user => user.favouriteFlats)
-  favouritedBy: User[];
+  @ManyToMany(() => User, user => user.favorites)
+  favoritedBy: User[];
 
   @CreateDateColumn()
   created: Date;
