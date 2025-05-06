@@ -9,7 +9,7 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { UsersService } from './services';
+import { UsersService } from '../services/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -28,52 +28,49 @@ import {
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiOperation({ summary: 'Registrar un nuevo usuario' })
+  @Post()
+  @ApiOperation({ summary: 'Registrar nuevo usuario' })
   @ApiResponse({ status: 201, description: 'Usuario registrado exitosamente' })
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
-  @Post('register')
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
-  @ApiOperation({ summary: 'Obtener todos los usuarios (solo admin)' })
-  @ApiResponse({
-    status: 200,
-    description: 'Lista de usuarios obtenida exitosamente',
-  })
+  @Get()
+  @Roles('admin')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Obtener todos los usuarios' })
+  @ApiResponse({ status: 200, description: 'Lista de usuarios obtenida exitosamente' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
   @ApiResponse({ status: 403, description: 'Acceso denegado' })
-  @Get()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('admin')
   findAll() {
     return this.usersService.findAll();
   }
 
-  @ApiOperation({ summary: 'Obtener un usuario por ID' })
-  @ApiResponse({ status: 200, description: 'Usuario encontrado exitosamente' })
-  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-  @Get(':id')
+  @Get('me')
   @UseGuards(JwtAuthGuard)
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  @ApiOperation({ summary: 'Obtener usuario actual' })
+  @ApiResponse({ status: 200, description: 'Usuario obtenido exitosamente' })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
+  findOne(@Request() req) {
+    return this.usersService.findOne(req.user.id);
   }
 
+  @Patch()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Actualizar usuario' })
   @ApiResponse({ status: 200, description: 'Usuario actualizado exitosamente' })
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
-  @Patch()
-  @UseGuards(JwtAuthGuard)
   update(@Body() updateUserDto: UpdateUserDto, @Request() req) {
     return this.usersService.update(req.user.id, updateUserDto);
   }
 
+  @Delete()
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Eliminar usuario' })
   @ApiResponse({ status: 200, description: 'Usuario eliminado exitosamente' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
-  @Delete()
-  @UseGuards(JwtAuthGuard)
   remove(@Request() req) {
     return this.usersService.remove(req.user.id);
   }

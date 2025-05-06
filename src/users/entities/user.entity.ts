@@ -42,11 +42,11 @@ export class User {
 
   @ManyToMany(() => Flat)
   @JoinTable({
-    name: 'user_favourites',
-    joinColumn: { name: 'userId', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'flatId', referencedColumnName: 'id' }
+    name: 'user_favorites',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'flat_id', referencedColumnName: 'id' },
   })
-  favouriteFlats: Flat[];
+  favorites: Flat[];
 
   @CreateDateColumn()
   created: Date;

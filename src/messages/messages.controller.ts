@@ -8,7 +8,7 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { MessagesService } from './service/messages.service';
+import { MessagesService } from '../services/messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {
@@ -36,10 +36,7 @@ export class MessagesController {
     @Body() createMessageDto: CreateMessageDto,
     @Request() req,
   ) {
-    return this.messagesService.create(
-      { ...createMessageDto, flatId },
-      req.user.id,
-    );
+    return this.messagesService.create(flatId, createMessageDto, req.user.id);
   }
 
   @Get()
@@ -51,12 +48,19 @@ export class MessagesController {
   @ApiResponse({ status: 401, description: 'No autorizado' })
   @ApiResponse({ status: 404, description: 'Departamento no encontrado' })
   findAll(@Param('id') flatId: string) {
-    return this.messagesService.findAllByFlat(flatId);
+    return this.messagesService.findAll(flatId);
   }
 
-  @Get(':senderId')
-  findOne(@Param('id') flatId: string, @Param('senderId') senderId: string) {
-    return this.messagesService.findOne(senderId);
+  @Get('sender/:senderId')
+  @ApiOperation({ summary: 'Obtener mensajes por remitente' })
+  @ApiResponse({ status: 200, description: 'Lista de mensajes obtenida exitosamente' })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
+  @ApiResponse({ status: 404, description: 'Departamento o remitente no encontrado' })
+  findBySender(
+    @Param('id') flatId: string,
+    @Param('senderId') senderId: string,
+  ) {
+    return this.messagesService.findBySender(flatId, senderId);
   }
 
   @Delete(':id')
