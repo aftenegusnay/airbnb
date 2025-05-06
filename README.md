@@ -45,9 +45,11 @@ npm run Start:dev
 ```
 
 ## Diagrama entidad relacion
+
 ![image](https://github.com/user-attachments/assets/ed88351b-3088-4ddd-a2b1-32878a20eac3)
 
 ## Relaciones
+
 1. Usuarios (users): Representa a los usuarios de la plataforma, que pueden tener diferentes roles: anfitrión, huésped o admin.
 2. Propiedades (properties): Entidad que representa los alojamientos disponibles para reserva.
 3. Reservas (bookings): Entidad que almacena las reservas realizadas por los huéspedes sobre una propiedad.
@@ -63,8 +65,6 @@ Propiedades → Reservas: Una propiedad puede tener múltiples reservas, pero un
 Reservas → Pagos: Una reserva puede generar un pago, y cada pago está asociado a una única reserva.
 
 Propiedades → Reseñas: Las reseñas están vinculadas a las propiedades, eliminando la relación directa con los usuarios.
-
-
 
 ## Deployment
 
