@@ -12,13 +12,14 @@ export class MessagesService {
   ) {}
 
   async create(
+    flatId: string,
     createMessageDto: CreateMessageDto,
     senderId: string,
   ): Promise<Message> {
     const message = this.messagesRepository.create({
       ...createMessageDto,
       sender: { id: senderId },
-      flat: { id: createMessageDto.flatId },
+      flat: { id: flatId },
     });
     return this.messagesRepository.save(message);
   }
@@ -26,6 +27,17 @@ export class MessagesService {
   async findAllByFlat(flatId: string): Promise<Message[]> {
     return this.messagesRepository.find({
       where: { flat: { id: flatId } },
+      relations: ['sender', 'flat'],
+      order: { created: 'DESC' },
+    });
+  }
+
+  async findBySender(flatId: string, senderId: string): Promise<Message[]> {
+    return this.messagesRepository.find({
+      where: {
+        flat: { id: flatId },
+        sender: { id: senderId },
+      },
       relations: ['sender', 'flat'],
       order: { created: 'DESC' },
     });

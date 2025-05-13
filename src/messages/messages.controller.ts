@@ -8,7 +8,7 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { MessagesService } from '../services/messages.service';
+import { MessagesService } from './service/messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import {
@@ -48,7 +48,7 @@ export class MessagesController {
   @ApiResponse({ status: 401, description: 'No autorizado' })
   @ApiResponse({ status: 404, description: 'Departamento no encontrado' })
   findAll(@Param('id') flatId: string) {
-    return this.messagesService.findAll(flatId);
+    return this.messagesService.findAllByFlat(flatId);
   }
 
   @Get('sender/:senderId')
@@ -64,6 +64,10 @@ export class MessagesController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Eliminar un mensaje' })
+  @ApiResponse({ status: 200, description: 'Mensaje eliminado exitosamente' })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
+  @ApiResponse({ status: 404, description: 'Mensaje no encontrado' })
   remove(@Param('id') id: string, @Request() req) {
     return this.messagesService.remove(id, req.user.id);
   }

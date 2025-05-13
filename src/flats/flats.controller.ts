@@ -51,6 +51,43 @@ export class FlatsController {
     return this.flatsService.findAll();
   }
 
+  @Get('favorites')
+  @ApiOperation({ summary: 'Obtener departamentos favoritos del usuario' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Lista de departamentos favoritos obtenida exitosamente',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          city: { type: 'string' },
+          streetName: { type: 'string' },
+          streetNumber: { type: 'number' },
+          areaSize: { type: 'number' },
+          hasAc: { type: 'boolean' },
+          yearBuilt: { type: 'number' },
+          rentPrice: { type: 'number' },
+          dateAvailable: { type: 'string', format: 'date' },
+          owner: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              email: { type: 'string' },
+              firstName: { type: 'string' },
+              lastName: { type: 'string' }
+            }
+          }
+        }
+      }
+    }
+  })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
+  getFavorites(@Request() req) {
+    return this.flatsService.getUserFavorites(req.user.id);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Obtener un departamento por ID' })
   @ApiResponse({

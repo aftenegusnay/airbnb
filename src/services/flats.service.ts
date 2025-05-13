@@ -88,4 +88,17 @@ export class FlatsService {
     await this.usersRepository.save(user);
     return flat;
   }
+
+  async getUserFavorites(userId: string): Promise<Flat[]> {
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+      relations: ['favorites', 'favorites.owner'],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Usuario con ID ${userId} no encontrado`);
+    }
+
+    return user.favorites;
+  }
 } 
