@@ -10,37 +10,39 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Registrar un nuevo usuario',
-    description: 'Crea un nuevo usuario y devuelve un token JWT para autenticación'
+    description:
+      'Crea un nuevo usuario y devuelve un token JWT para autenticación',
   })
-  @ApiBody({ 
+  @ApiBody({
     type: RegisterUserDto,
     description: 'Datos del usuario a registrar',
     examples: {
       example1: {
         value: {
-          email: "usuario@ejemplo.com",
-          password: "password123",
-          firstName: "Juan",
-          lastName: "Pérez",
-          birthDate: "1990-01-01"
-        }
-      }
-    }
+          email: 'usuario@ejemplo.com',
+          password: 'password123',
+          firstName: 'Juan',
+          lastName: 'Pérez',
+          birthDate: '1990-01-01',
+          isAdmin: false,
+        },
+      },
+    },
   })
-  @ApiResponse({ 
-    status: 201, 
+  @ApiResponse({
+    status: 201,
     description: 'Usuario registrado exitosamente',
     schema: {
       type: 'object',
       properties: {
         access_token: {
           type: 'string',
-          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-        }
-      }
-    }
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+    },
   })
   @ApiResponse({ status: 400, description: 'Error de validación' })
   @ApiResponse({ status: 409, description: 'El email ya está registrado' })
@@ -54,9 +56,9 @@ export class AuthController {
   }
 
   @Post('login')
-  @ApiOperation({ 
+  @ApiOperation({
     summary: 'Iniciar sesión de usuario',
-    description: 'Autentica al usuario y devuelve un token JWT'
+    description: 'Autentica al usuario y devuelve un token JWT',
   })
   @ApiBody({
     type: LoginDto,
@@ -64,24 +66,24 @@ export class AuthController {
     examples: {
       example1: {
         value: {
-          email: "usuario@ejemplo.com",
-          password: "password123"
-        }
-      }
-    }
+          email: 'usuario@ejemplo.com',
+          password: 'password123',
+        },
+      },
+    },
   })
-  @ApiResponse({ 
-    status: 200, 
+  @ApiResponse({
+    status: 200,
     description: 'Login exitoso',
     schema: {
       type: 'object',
       properties: {
         access_token: {
           type: 'string',
-          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-        }
-      }
-    }
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+        },
+      },
+    },
   })
   @ApiResponse({ status: 401, description: 'Credenciales inválidas' })
   async login(@Body() loginDto: LoginDto) {

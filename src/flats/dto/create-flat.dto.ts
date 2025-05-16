@@ -1,5 +1,6 @@
-import { IsString, IsNumber, IsBoolean, IsDate, Min, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsDateString, Min, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 
 export class CreateFlatDto {
   @ApiProperty({
@@ -64,7 +65,15 @@ export class CreateFlatDto {
     description: 'Fecha de disponibilidad del departamento',
     example: '2024-03-01'
   })
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
+  @Transform(({ value }) => {
+    if (!value) return value;
+    try {
+      return new Date(value).toISOString();
+    } catch {
+      return value;
+    }
+  })
   dateAvailable: Date;
 }

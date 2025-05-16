@@ -1,4 +1,5 @@
-import { IsString, IsNumber, IsBoolean, IsDate, Min, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsBoolean, IsDateString, Min, IsOptional } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class UpdateFlatDto {
   @IsOptional()
@@ -32,6 +33,14 @@ export class UpdateFlatDto {
   rentPrice?: number;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
+  @Transform(({ value }) => {
+    if (!value) return value;
+    try {
+      return new Date(value).toISOString();
+    } catch {
+      return value;
+    }
+  })
   dateAvailable?: Date;
 }

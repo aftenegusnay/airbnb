@@ -1,4 +1,5 @@
-import { IsEmail, IsString, IsDate, MinLength, IsOptional } from 'class-validator';
+import { IsEmail, IsString, IsBoolean, MinLength, IsOptional, IsDateString } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -19,10 +20,19 @@ export class UpdateUserDto {
   lastName?: string;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
+  @Transform(({ value }) => {
+    if (!value) return value;
+    try {
+      return new Date(value).toISOString();
+    } catch {
+      return value;
+    }
+  })
   birthDate?: Date;
 
   @IsOptional()
-  @IsString()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true' ? true : value === 'false' ? false : value)
   isAdmin?: boolean;
 }

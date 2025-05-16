@@ -47,10 +47,8 @@ export class RegisterUserDto {
 
   @ApiProperty({
     description: 'Indica si el usuario es administrador',
-    required: false,
     default: false,
   })
   @IsOptional()
-  @IsString()
   isAdmin?: boolean;
 }
