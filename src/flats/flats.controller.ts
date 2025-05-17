@@ -30,12 +30,11 @@ export class FlatsController {
   constructor(private readonly flatsService: FlatsService) {}
 
   @Post()
-  @Roles('admin')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Crear un nuevo departamento' })
   @ApiResponse({ status: 201, description: 'Departamento creado exitosamente' })
   @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
-  @ApiResponse({ status: 403, description: 'Acceso denegado' })
   create(@Body() createFlatDto: CreateFlatDto, @Request() req) {
     return this.flatsService.create(createFlatDto, req.user.id);
   }
@@ -101,7 +100,7 @@ export class FlatsController {
   }
 
   @Patch(':id')
-  @Roles('admin')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Actualizar un departamento' })
   @ApiResponse({
     status: 200,
@@ -120,7 +119,7 @@ export class FlatsController {
   }
 
   @Delete(':id')
-  @Roles('admin')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Eliminar un departamento' })
   @ApiResponse({
     status: 200,

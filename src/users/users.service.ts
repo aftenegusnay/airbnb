@@ -49,6 +49,10 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
 
+    if (user.isAdmin && updateUserDto.password) {
+      throw new UnauthorizedException('Los administradores no pueden cambiar su contraseña');
+    }
+
     if (updateUserDto.password) {
       updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
     }

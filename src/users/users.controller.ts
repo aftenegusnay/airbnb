@@ -56,6 +56,16 @@ export class UsersController {
     return this.usersService.findOne(req.user.id);
   }
 
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Obtener usuario por ID' })
+  @ApiResponse({ status: 200, description: 'Usuario obtenido exitosamente' })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+  findById(@Param('id') id: string) {
+    return this.usersService.findOne(id);
+  }
+
   @Patch()
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Actualizar usuario' })

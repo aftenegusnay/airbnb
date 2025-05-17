@@ -18,7 +18,7 @@ export class FlatsService {
   async create(createFlatDto: CreateFlatDto, userId: string): Promise<Flat> {
     const user = await this.usersRepository.findOne({ where: { id: userId } });
     if (!user) {
-      throw new NotFoundException(`Usuario con ID ${userId} no encontrado`);
+      throw new NotFoundException('Usuario no encontrado');
     }
 
     const flat = this.flatsRepository.create({
