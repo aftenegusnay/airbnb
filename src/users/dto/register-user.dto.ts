@@ -3,7 +3,6 @@ import {
   IsString,
   IsDate,
   MinLength,
-  IsOptional,
   IsDateString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
@@ -44,11 +43,4 @@ export class RegisterUserDto {
   })
   @IsDateString()
   birthDate: string;
-
-  @ApiProperty({
-    description: 'Indica si el usuario es administrador',
-    default: false,
-  })
-  @IsOptional()
-  isAdmin?: boolean;
 }

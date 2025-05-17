@@ -84,4 +84,16 @@ export class UsersController {
   remove(@Request() req) {
     return this.usersService.remove(req.user.id);
   }
+
+  @Patch(':id/admin')
+  @Roles('admin')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiOperation({ summary: 'Asignar rol de administrador a un usuario' })
+  @ApiResponse({ status: 200, description: 'Rol de administrador asignado exitosamente' })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
+  @ApiResponse({ status: 403, description: 'Acceso denegado' })
+  @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
+  setAdmin(@Param('id') id: string) {
+    return this.usersService.setAdmin(id);
+  }
 }
