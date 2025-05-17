@@ -72,4 +72,10 @@ export class UsersService {
 
     return user;
   }
+
+  async setAdmin(id: string): Promise<User> {
+    const user = await this.findOne(id);
+    user.isAdmin = true;
+    return this.usersRepository.save(user);
+  }
 }
