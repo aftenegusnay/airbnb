@@ -15,7 +15,7 @@ Plataforma tipo Airbnb para encontrar, comparar y gestionar alojamientos.
 ### 1. Clona el repositorio
 
 ```bash
-git clone <URL_DEL_REPO>
+git clone [<URL_DEL_REPO>](https://github.com/aftenegusnay/airbnb)
 cd airbnb
 ```
 
