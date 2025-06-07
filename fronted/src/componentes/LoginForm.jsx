@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { handleLogin, error } = useAuth();
+  const { handleLogin } = useAuth();
   const toast = useRef(null);
   const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ const LoginForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Correo electrónico"
-            className="w-full p-inputtext-lg rounded-xl focus:ring-2 focus:ring-blue-400"
+            className="w-full p-inputtext-lg rounded-xl focus:ring-2 focus:ring-blue-400 border border-gray-300"
             required
           />
         </span>
@@ -71,7 +71,7 @@ const LoginForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Contraseña"
-            className="w-full p-inputtext-lg rounded-xl focus:ring-2 focus:ring-blue-400"
+            className="w-full p-inputtext-lg rounded-xl focus:ring-2 focus:ring-blue-400 border border-gray-300"
             feedback={false}
             toggleMask
             required
@@ -79,15 +79,28 @@ const LoginForm = () => {
         </span>
         <Button
           icon="pi pi-arrow-right"
-          className="p-button-rounded p-button-lg w-full mt-2 bg-gradient-to-r from-blue-400 to-amber-400 border-0 text-white shadow-lg hover:scale-105 transition-transform"
+          className="p-button-rounded p-button-lg w-full mt-2 bg-gradient-to-r from-blue-500 to-indigo-600 border-0 text-white shadow-lg hover:scale-105 transition-transform duration-200 ease-in-out"
           type="submit"
           label="Iniciar Sesión"
         />
       </form>
-      {/* Iconos de ayuda */}
-      <div className="flex justify-center gap-4 mt-8">
-        <Button icon="pi pi-plus" className="p-button-rounded p-button-text text-blue-400" aria-label="Crear cuenta" tooltip="Crear cuenta" />
-        <Button icon="pi pi-question" className="p-button-rounded p-button-text text-amber-400" aria-label="Ayuda" tooltip="Ayuda" />
+      {/* Enlaces adicionales */}
+      <div className="flex flex-col items-center gap-4 mt-8 w-full">
+        <button
+          type="button"
+          className="text-blue-600 hover:text-blue-800 transition duration-200 ease-in-out text-sm font-semibold"
+          onClick={() => navigate('/register')}
+        >
+          ¿No tienes una cuenta? Regístrate aquí
+        </button>
+        {/* Puedes añadir más enlaces aquí, por ejemplo, para recuperar contraseña */}
+        <button
+          type="button"
+          className="text-gray-500 hover:text-gray-700 transition duration-200 ease-in-out text-sm"
+          onClick={() => alert('Funcionalidad de ayuda no implementada')}
+        >
+          ¿Necesitas ayuda?
+        </button>
       </div>
     </div>
   );
