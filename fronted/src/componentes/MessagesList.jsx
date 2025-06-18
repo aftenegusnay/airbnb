@@ -23,7 +23,7 @@ const MessagesList = ({ flatId }) => {
         toast.current.show({
           severity: 'error',
           summary: 'Error',
-          detail: err.message || 'Error al cargar los mensajes',
+          detail: 'Ocurrió un error, por favor intenta de nuevo.',
           life: 3000
         });
       } finally {

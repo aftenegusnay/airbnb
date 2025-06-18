@@ -49,7 +49,7 @@ const HotelCard = ({ id, city, streetName, streetNumber, areaSize, hasAc, yearBu
       toast.current.show({
         severity: 'error',
         summary: 'Error',
-        detail: error.message || 'Error al actualizar favoritos',
+        detail: 'Ocurrió un error, por favor intenta de nuevo.',
         life: 3000
       });
     }

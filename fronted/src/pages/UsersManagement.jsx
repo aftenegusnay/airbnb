@@ -33,7 +33,7 @@ const UsersManagement = () => {
       toast.current.show({ severity: 'success', summary: 'Éxito', detail: `Usuario ${currentIsAdmin ? 'degradado' : 'ascendido'} a ${currentIsAdmin ? 'usuario normal' : 'admin'}.`, life: 3000 });
       fetchUsers(); // Recargar usuarios para reflejar el cambio
     } catch (err) {
-      toast.current.show({ severity: 'error', summary: 'Error', detail: 'No se pudo actualizar el estado de administrador.', life: 3000 });
+      toast.current.show({ severity: 'error', summary: 'Error', detail: 'Ocurrió un error, por favor intenta de nuevo.', life: 3000 });
       console.error("Error al alternar estado de admin:", err);
     }
   };

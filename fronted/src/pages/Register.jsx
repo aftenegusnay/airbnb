@@ -28,7 +28,7 @@ const Register = () => {
       toast.current.show({ severity: 'success', summary: 'Registro exitoso', detail: '¡Bienvenido!', life: 2000 });
       setTimeout(() => navigate('/hoters'), 1200);
     } catch (err) {
-      toast.current.show({ severity: 'error', summary: 'Error', detail: 'No se pudo registrar', life: 3000 });
+      toast.current.show({ severity: 'error', summary: 'Error', detail: 'Ocurrió un error, por favor intenta de nuevo.', life: 3000 });
     } finally {
       setLoading(false);
     }

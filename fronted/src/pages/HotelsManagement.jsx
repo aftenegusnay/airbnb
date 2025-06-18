@@ -25,7 +25,7 @@ const HotelsManagement = () => {
       toast.current.show({
         severity: 'error',
         summary: 'Error',
-        detail: 'Error al cargar los hoteles',
+        detail: 'Ocurrió un error, por favor intenta de nuevo.',
         life: 3000
       });
     } finally {
@@ -62,7 +62,7 @@ const HotelsManagement = () => {
           toast.current.show({
             severity: 'error',
             summary: 'Error',
-            detail: error.message || 'Error al eliminar el hotel',
+            detail: 'Ocurrió un error, por favor intenta de nuevo.',
             life: 3000
           });
         }

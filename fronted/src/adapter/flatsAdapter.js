@@ -166,7 +166,7 @@ export const removeFromFavorites = async (flatId) => {
 
   try {
     const response = await fetch(`${API_URL}/${flatId}/favorite`, {
-      method: 'DELETE',
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'

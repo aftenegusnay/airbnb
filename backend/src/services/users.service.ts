@@ -88,4 +88,9 @@ export class UsersService {
     user.isAdmin = true;
     return this.usersRepository.save(user);
   }
+  async toggleAdmin(id: string): Promise<User> {
+    const user = await this.findOne(id);
+    user.isAdmin = !user.isAdmin;
+    return this.usersRepository.save(user);
+  }
 }

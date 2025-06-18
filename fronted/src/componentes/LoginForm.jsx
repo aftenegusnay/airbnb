@@ -29,14 +29,10 @@ const LoginForm = () => {
         }, 1200);
       }
     } catch (err) {
-      let detail = 'Credenciales inválidas';
-      if (err?.response?.data?.message) {
-        detail = err.response.data.message;
-      }
       toast.current.show({
         severity: 'error',
         summary: 'Error',
-        detail,
+        detail: 'Ocurrió un error, por favor intenta de nuevo.',
         life: 3000,
       });
     }

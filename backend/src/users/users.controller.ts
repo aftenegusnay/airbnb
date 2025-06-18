@@ -91,12 +91,12 @@ export class UsersController {
   @Patch(':id/admin')
   @Roles('admin')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Asignar rol de administrador a un usuario' })
-  @ApiResponse({ status: 200, description: 'Rol de administrador asignado exitosamente' })
+  @ApiOperation({ summary: 'Alternar rol de administrador a un usuario' })
+  @ApiResponse({ status: 200, description: 'Rol de administrador alternado exitosamente' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
   @ApiResponse({ status: 403, description: 'Acceso denegado' })
   @ApiResponse({ status: 404, description: 'Usuario no encontrado' })
-  setAdmin(@Param('id') id: string) {
-    return this.usersService.setAdmin(id);
+  toggleAdmin(@Param('id') id: string) {
+    return this.usersService.toggleAdmin(id);
   }
 }

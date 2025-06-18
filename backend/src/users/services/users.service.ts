@@ -72,4 +72,10 @@ export class UsersService {
     const user = await this.findOne(id);
     await this.usersRepository.remove(user);
   }
+
+  async toggleAdmin(id: string): Promise<User> {
+    const user = await this.findOne(id);
+    user.isAdmin = !user.isAdmin;
+    return this.usersRepository.save(user);
+  }
 }

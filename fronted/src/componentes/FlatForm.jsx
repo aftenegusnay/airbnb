@@ -68,7 +68,7 @@ const FlatForm = ({ flat, onSuccess, onCancel }) => {
       toast.current.show({
         severity: 'error',
         summary: 'Error',
-        detail: error.message || 'Ocurrió un error al procesar la solicitud',
+        detail: 'Ocurrió un error, por favor intenta de nuevo.',
         life: 3000
       });
     } finally {
